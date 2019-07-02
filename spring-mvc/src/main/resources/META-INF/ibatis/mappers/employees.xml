@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap>
+	<typeAlias alias="emp" type="kr.co.jhta.vo.Employee"/>
+	
+	<select id="getEmployeesByDeptId" parameterClass="int" resultClass="emp">
+		select
+			e.employee_id				id,
+			e.first_name				firstName,
+			e.last_name					lastName,
+			e.email						email,
+			e.phone_number				phoneNumber,
+			e.hire_date					hireDate,
+			e.job_id					jobId,
+			e.salary					salary,
+			e.commission_pct, 0			commissionPct,
+			e.manager_id				managerId,
+			e.department_id				departmentId
+		from
+			employees e, departments d
+		where
+			e.department_id = d.department_id
+		and
+			e.department_id = #value#	
+	</select>
+	
+	<select id="getEmployeeById" parameterClass="int" resultClass="emp">
+		select
+			employee_id				id,
+			first_name				firstName,
+			last_name				lastName,
+			email					email,
+			phone_number			phoneNumber,
+			hire_date				hireDate,
+			job_id					jobId,
+			salary					salary,
+			commission_pct, 0		commissionPct,
+			manager_id				managerId,
+			department_id			departmentId
+		from
+			employees
+		where
+			employee_id = #value#
+	</select>
+	
+	<insert id="insertEmployee" parameterClass="emp">
+		insert into employees
+			(employee_id, first_name, last_name, email, phone_number, hire_date, job_id, salary,
+			 commission_pct, manager_id, department_id)
+		values
+			(employees_seq.nextval, #firstName#, #lastName#, #email#, #phoneNumber#, sysdate, #jobId#, #salary#,
+			 0, #managerId#, #departmentId#)
+	</insert>
+</sqlMap>

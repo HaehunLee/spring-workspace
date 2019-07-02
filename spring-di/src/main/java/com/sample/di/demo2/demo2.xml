@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 3. 객체를 정의하고 관계 연결 -->
+	<bean id="service" class="com.sample.di.demo2.GreetingService">
+		<!-- 
+			GreetingServer에서 준비한 setter메소드의 조립할 것 정의 
+			name="ko"에 korean설정 ===> setKo()로 설정
+		-->
+		<property name="ko" ref="korean"></property>
+		<property name="eng" ref="english"></property>
+	</bean>
+	
+	<bean id="korean" class="com.sample.di.demo2.KoreanGreeting"></bean>
+	<bean id="english" class="com.sample.di.demo2.EnglishGreeting"></bean>
+</beans>

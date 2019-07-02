@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+	<select id="getAllCustomers" resultClass="kr.co.jhta.vo.Customer">
+		select
+			customer_no as no,
+			customer_name as name,
+			customer_nickname as nickName,
+			customer_tel as tel,
+			customer_email as email,
+			customer_city as city,
+			customer_point as point,
+			customer_create_date as createDate
+		from
+			customers
+		order by
+			customer_no desc
+	</select>
+	
+	<select id="getCustomerByNo" parameterClass="int" resultClass="kr.co.jhta.vo.Customer">
+		select
+			customer_no as no,
+			customer_name as name,
+			customer_nickname as nickName,
+			customer_tel as tel,
+			customer_email as email,
+			customer_city as city,
+			customer_point as point,
+			customer_create_date as createDate
+		from
+			customers
+		where
+			customer_id = #value#
+	</select>
+	
+	<select id="getCustomerBySearch" parameterClass="map" resultClass="kr.co.jhta.vo.Customer">
+		select
+			customer_no as no,
+			customer_name as name,
+			customer_nickname as nickName,
+			customer_tel as tel,
+			customer_email as email,
+			customer_city as city,
+			customer_point as point,
+			customer_create_date as createDate
+		from
+			customers
+		where
+		<dynamic>
+			<isEqual property="option" compareValue="no">
+				customer_no = #value#
+			</isEqual>
+			<isEqual property="option" compareValue="name">
+				customer_name = #value#
+			</isEqual>
+			<isEqual property="option" compareValue="nickName">
+				customer_nickname = #value#
+			</isEqual>
+		</dynamic>
+	</select>
+	
+	<insert id="insertCustomer" parameterClass="kr.co.jhta.vo.Customer">
+		insert into customers (
+			customer_no, 
+			customer_name, 
+			customer_nickname, 
+			customer_tel, 
+			customer_email, 
+			customer_city, 
+			customer_point)
+		values 
+		(cust_seq.nextval, #name#, #nickName#, #tel#, #email#, #city#, 0)
+	</insert>
+	
+	<update id="updateCustomer" parameterClass="kr.co.jhta.vo.Customer">
+		update 
+			customers
+		set
+			customer_nickname = #nickName#,
+			customer_tel = #tel#,
+			customer_email = #email#,
+			customer_city = #city#,
+			customer_point = #point#
+		where
+			customer_no = #no#
+	</update>
+	
+	<delete id="deleteCustomer" parameterClass="int">
+		delete from customers
+		where
+			customer_no = #value#
+	</delete>
+</sqlMap>
